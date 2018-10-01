@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script src="d3/d3.js"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    
+
+    </head>
+
+    <style >
+        body {text-align: center;}
+        #lin1 {width: 100%; float: left; height: 300px;}
+        #lin2 { width: 100%; float: left; height: 300px; }
+        #lin3 { width: 100%; float: left; height: 300px; }
+        #lin4 {width: 100%; float: left; height: 300px;}
+        #lin5 { width: 100%; float: left; height: 300px; }
+        #lin6 { width: 100%; float: left; height: 300px; }
+        #lin7 {width: 100%; float: left; height: 300px;}
+        #lin8 {width: 100%; float: left; height: 300px;}
+        #lin9 {width: 100%; float: left; height: 300px;}
+    </style>
+
+    <body>
+        <div id="lin1"></div>
+        <div id='lin2'></div>
+        <div id='lin3'></div>
+        <div id="lin4"></div>
+        <div id='lin5'></div>
+        <div id='lin6'></div>
+        <div id='lin7'></div>
+        <div id='lin8'></div>
+        <div id='lin9'></div>
+        <script type="text/javascript">
+
+            
+        //dados divididos por estado
+            var EstAC = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [112, 639,68,867,597,1203,282,14,111641,116109,167603],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)','rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };      
+
+            var EstAL = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [1197,7069,892,15236,3552,8413,610,125,703809,311830,356803],
+                text: ["JOSÉ MARIA DE ALMEIDA","LEVY FIDELIX","MAURO LUÍS IASI","LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x2',
+                yaxis: 'y2',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstAM = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [1353,10261,545,15957,4395,42697,621,98,915299,326257,361632],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x3',
+                yaxis: 'y3',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+
+            var data = [EstAC, EstAL, EstAM];
+
+            var layout1 = {
+                xaxis: {
+                    tickangle: 35,
+                    domain: [0, 0.25]
+                },
+                yaxis: {
+                    title: "ACRE"
+                },
+                xaxis2: {
+                    tickangle: 35,
+                    domain: [0.35, 0.60]
+                },
+                yaxis2: {
+                    title: "ALAGOAS",
+                    anchor: 'x2'
+                },
+                xaxis3: {
+                    tickangle: 35,
+                    domain: [0.70, 0.95]
+                },
+                yaxis3: {
+                    title: "AMAZONAS",
+                    anchor: 'x3'
+                }
+            };
+
+            Plotly.newPlot('lin1', data, layout1,{responsive: true});
+
+
+            var EstAP = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [1122,1549,162,4008,1254,5116,435,21,199016,99125,77791],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x4',
+                yaxis: 'y4',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)','rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstBA = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [3508,15336,2890,55837,15722,37194,1828,555,4292850,1277512,1284711],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x5',
+                yaxis: 'y5',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstCE = {
+               x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [4661,15971,1832,52484,14094,25749,3193,342,3087658,677587,638614],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x6',
+                yaxis: 'y6',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var data = [EstAP, EstBA, EstCE];
+            var layout2 = {
+                xaxis4: {
+                    tickangle: 35,
+                    domain: [0, 0.25]
+                },
+                yaxis4: {
+                    title: "AMAPÁ"
+                },
+                xaxis5: {
+                    tickangle: 35,
+                    domain: [0.35, 0.60]
+                },
+                yaxis5: {
+                    title: "BAHIA",
+                    anchor: 'x5'
+                },
+                xaxis6: {
+                    tickangle: 35,
+                    domain: [0.70, 0.95]
+                },
+                yaxis6: {
+                    title: "CEARÁ",
+                    anchor: 'x6'
+                }
+            };
+            Plotly.newPlot('lin2', data, layout2,{responsive: true});
+
+
+            var EstDF = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [1495,15270,559,31435,19478,10053,1295,473,363861,570494,565279],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x7',
+                yaxis: 'y7',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstES = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [1313,9021,723,19016,11875,16138,1133,215,653839,694085,567964],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x8',
+                yaxis: 'y8',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstGO = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [1765,12393,1256,30411,12259,19005,1948,301,1035911,1341320,771591],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x9',
+                yaxis: 'y9',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var data = [EstDF, EstES, EstGO];
+            var layout3 = {
+                xaxis7: {
+                    tickangle: 35,
+                    domain: [0, 0.25]
+                },
+                yaxis7: {
+                    title: "DISTRITO FEDERAL"
+                },
+                xaxis8: {
+                    tickangle: 35,
+                    domain: [0.35, 0.60]
+                },
+                yaxis8: {
+                    title: "ESPÍRITO SANTO",
+                    anchor: 'x8'
+                },
+                xaxis9: {
+                    tickangle: 35,
+                    domain: [0.70, 0.95]
+                },
+                yaxis9: {
+                    title: "GOIÁS",
+                    anchor: 'x9'
+                }
+            };
+            Plotly.newPlot('lin3', data, layout3,{responsive: true});
+
+
+            var EstMA = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [4340,6707,1151,13100,6965,22389,2205,158,2187864,365655,535013],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x10',
+                yaxis: 'y10',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstMG = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [8358,25939,5469,139889,54483,67486,5545,1489,4830867,4417876,1555553],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x11',
+                yaxis: 'y11',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstMS = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [977,4623,390,10708,4093,6977,478,97,507063,558826,257976],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x12',
+                yaxis: 'y12',
+                showlegend: false,
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var data = [EstMA, EstMG, EstMS];
+            var layout4 = {
+                xaxis10: {
+                    tickangle: 35,
+                    domain: [0, 0.25]
+                },
+                yaxis10: {
+                    title: "MARANHÃO"
+                },
+                xaxis11: {
+                    tickangle: 35,
+                    domain: [0.35, 0.60]
+                },
+                yaxis11: {
+                    title: "MINAS GERAIS",
+                    anchor: 'x11'
+                },
+                xaxis12: {
+                    tickangle: 35,
+                    domain: [0.70, 0.95]
+                },
+                yaxis12: {
+                    title: "MATO GROSSO DO SUL",
+                    anchor: 'x12'
+                }
+            };
+            Plotly.newPlot('lin4', data, layout4,{responsive: true});
+
+
+
+            var EstMT = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [474,4462,529,10093,4128,9129,470,101,616411,693755,220067],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x13',
+                yaxis: 'y13',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstPA = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [3012,11501,833,40353,12260,43068,915,207,2040981,1058334,627319],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x14',
+                yaxis: 'y14',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstPB = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [1071,7539,796,16847,7791,12102,911,247,1166860,490962,393685],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x15',
+                yaxis: 'y15',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var data = [EstMT, EstPA, EstPB];
+            var layout5 = {
+                showlegend: false,
+                xaxis13: {
+                    tickangle: 35,
+                    domain: [0, 0.25]
+                },
+                yaxis13: {
+                    title: "MATO GROSSO"
+                },
+                xaxis14: {
+                    tickangle: 35,
+                    domain: [0.35, 0.60]
+                },
+                yaxis14: {
+                    title: "PARÁ",
+                    anchor: 'x14'
+                },
+                xaxis15: {
+                    tickangle: 35,
+                    domain: [0.70, 0.95]
+                },
+                yaxis15: {
+                    title: "PARAÍBA",
+                    anchor: 'x15'
+                }
+            };
+            Plotly.newPlot('lin5', data, layout5,{responsive: true});
+
+
+            var EstPE = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [2760,11498,1719,40455,13349,15691,1266,322,2127010,285315,2311491],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x16',
+                yaxis: 'y16',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstPI = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [1456,2338,487,10159,4385,6284,752,151,1235337,242256,246271],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x17',
+                yaxis: 'y17',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstPR = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [4552,33612,2409,79267,44755,40656,4828,560,1973421,3021988,861820],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x18',
+                yaxis: 'y18',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var data = [EstPE, EstPI, EstPR];
+            var layout6 = {
+                showlegend: false,
+                xaxis16: {
+                    tickangle: 35,
+                    domain: [0, 0.25]
+                },
+                yaxis16: {
+                    title: "PERNAMBUCO"
+                },
+                xaxis17: {
+                    tickangle: 35,
+                    domain: [0.35, 0.60]
+                },
+                yaxis17: {
+                    title: "PIAUÍ",
+                    anchor: 'x17'
+                },
+                xaxis18: {
+                    tickangle: 35,
+                    domain: [0.70, 0.95]
+                },
+                yaxis18: {
+                    title: "PARANÁ",
+                    anchor: 'x18'
+                }
+            };
+            Plotly.newPlot('lin6', data, layout6,{responsive: true});
+
+
+            var EstRJ = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [14430,65015,8548,227432,68032,136163,11754,1450,2971736,2249662,2592292],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x19',
+                yaxis: 'y19',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstRN = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [2830,5292,641,20212,5346,13316,929,162,999625,330264,286301],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x20',
+                yaxis: 'y20',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstRO = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [429,3819,208,4664,2368,12512,634,63,345305,371937,86293],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x21',
+                yaxis: 'y21',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var data = [EstRJ, EstRN, EstRO];
+            var layout7 = {
+                showlegend: false,
+                xaxis19: {
+                    tickangle: 35,
+                    domain: [0, 0.25]
+                },
+                yaxis19: {
+                    title: "RIO DE JANEIRO"
+                },
+                xaxis20: {
+                    tickangle: 35,
+                    domain: [0.35, 0.60]
+                },
+                yaxis20: {
+                    title: "RIO GRANDE DO NORTE",
+                    anchor: 'x20'
+                },
+                xaxis21: {
+                    tickangle: 35,
+                    domain: [0.70, 0.95]
+                },
+                yaxis21: {
+                    title: "RONDÔNIA",
+                    anchor: 'x21'
+                }
+            };
+            Plotly.newPlot('lin7', data, layout7,{responsive: true});
+
+
+            var EstRR = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [209,1285,71,2815,780,5194,515,48,82942,109070,47087],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x22',
+                yaxis: 'y22',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstRS = {
+               x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [4083,17954,2301,143370,43703,33053,2255,505,2752075,2639647,732828],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x23',
+                yaxis: 'y23',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstSC = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [3975,15774,1413,53532,30239,23661,2005,390,1141102,1963772,476430],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x24',
+                yaxis: 'y24',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var data = [EstRR, EstRS, EstSC];
+            var layout8 = {
+                showlegend: false,
+                xaxis22: {
+                    tickangle: 35,
+                    domain: [0, 0.25]
+                },
+                yaxis22: {
+                    title: "RORAIMA"
+                },
+                xaxis23: {
+                   tickangle: 35,
+                    domain: [0.35, 0.60]
+                },
+                yaxis23: {
+                    title: "RIO GRANDE DO SUL",
+                    anchor: 'x23'
+                },
+                xaxis24: {
+                    tickangle: 35,
+                    domain: [0.70, 0.95]
+                },
+                yaxis24: {
+                    title: "SANTA CATARINA",
+                    anchor: 'x24'
+                }
+            };
+            Plotly.newPlot('lin8', data, layout8,{responsive: true});
+
+            var EstSE = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [1703,3677,764,12827,3733,18776,431,142,601740,248756,203390],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x25',
+                yaxis: 'y25',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstSP = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [19129,136244,10667,554863,236966,142842,13510,3971,5930661,10165921,5765598],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x26',
+                yaxis: 'y26',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)', 'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)', 'rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };   
+
+            var EstTO = {
+                x: ["JOSÉ DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS", "LUCIANA GENRO","EDUARDO JORGE","EVERALDO DIAS","EYMAEL","RUI COSTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [247,1654,261,2875,1430,4740,221,44,368431,203183,150690],
+                text: ["JOSÉ MARIA DE ALMEIDA", "LEVY FIDELIX", "MAURO LUÍS IASI", "LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                xaxis: 'x27',
+                yaxis: 'y27',
+                hoverinfo: 'text+y',
+                marker:{
+                    color: ['rgba(2, 115, 81, 1)', 'rgba(164, 4, 200, 1)',  'rgba(55, 16, 16, 1)', 'rgba(77, 77, 77, 1)', 'rgba(204, 156, 0, 1)', 'rgba(170, 34, 123, 1)', 'rgba(47, 9, 34, 1)','rgba(49, 134, 4, 1)','rgba(4, 168, 190, 1)','rgba(36, 4, 180, 1)','rgba(209, 5, 5, 1)']
+                },
+                type: 'bar'
+            };  
+
+            var data = [EstSE, EstSP, EstTO];
+            var layout9 = {
+            
+                showlegend: false,
+                xaxis25: {
+                    tickangle: 35,
+                    domain: [0, 0.25]
+                },
+                yaxis25: {
+                    title: "SERGIPE"
+                },
+                xaxis26: {
+                    tickangle: 35,
+                    domain: [0.35, 0.60]
+                },
+                yaxis26: {
+                    title: "SÃO PAULO",
+                    anchor: 'x26'
+                },
+                xaxis27: {
+                    tickangle: 35,
+                    domain: [0.70, 0.95]
+                },
+                yaxis27: {
+                    title: "TOCANTINS",
+                    anchor: 'x27'
+                }
+            };
+            Plotly.newPlot('lin9', data, layout9,{responsive: true});
+
+            var EstZZ = {
+                x: ["JOSÉ MARIA DE ALMEIDA","LEVY FIDELIX","MAURO LUÍS IASI","LUCIANA KREBS GENRO","EDUARDO JORGE","EVERALDO DIAS PEREIRA","JOSE MARIA EYMAEL","RUI COSTA PIMENTA","DILMA ROUSSEFF","AÉCIO NEVES","MARINA SILVA"],
+                y: [648,436,261,3474,2067,906,281,73,24353,65713,34527],
+                type: 'bar'
+            }; 
+
+
+
+
+        </script>
+    </body>
+</html>     
