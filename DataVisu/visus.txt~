@@ -1,0 +1,31 @@
+Distribuição dos votos de cada candidato por estado  (candidatos à presidência)
+	se for pequenos multiplos (com barras verticais) cada grafico tem o estado, comparando a quant de votos de cada candidato
+	9x3
+
+Porém, durante o desenvolvimento no trabalho, foi mais fácil dividir a página em nove linhas, e cada linha contendo três gráficos. O problema nessa visualização conseguida, é que diminui o poder de comparação entre os gráficos, pois houve uma dificuldade em conseguir deixar todos os gráficos em uma página de forma que se veja todos ao mesmo tempo e sem perda de qualidade e sem distorções nas escalas.
+
+Outra dificuldade encontrada foi que, como alguns candidatos têm bem mais votos que outros, as escalas favoreceram mais aqueles com mais votos. Como não foi possível normalizar as escalas do eixo y, e a tentativa de transformar os valores para log foi falha, resolveu-se manter o maior número da escala como o maior número de votos mesmo. Isso infelizmente impede a comparação mais exata entre cada estado. O que ajuda um pouca na visualização é que ao passar o mouse pelas barras, mesmo as pesquenas, é possível ver o nome do candidato e o número de votos que ele obteve.
+
+
+Partido mais votado por estado
+	mapa de calor?
+	parte todo?
+	stacked?
+	
+	heatmap 11x27, usar os partidos que tinham candidatos para a presidencia. analisar os votos para saber como separar as cores. usar porcentagem dos votos talvez? o total de votos naquele estado. se algum ficar com +2 parecidos, mudar o tom da cor
+
+	se for stacked, usar os partidos que tinham candidatos para a presidencia. 
+
+
+PSTU
+PRTB
+PCB
+PSOL
+PV
+PSC
+PSDC
+PCO
+PT
+PSDB
+PSB
+

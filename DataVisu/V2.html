@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Estados</title>
+        <script src="d3/d3.js" src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+        <style type="text/css">
+            
+        </style>
+
+    </head>
+
+    <style >
+        body {text-align: center;}
+        #Div1 {width: 100%; float: left; height: 500px;}
+        #Div2 {width: 100%; float: left; height: 500px; }
+    </style>
+
+    <body>
+        <div id="Div1"></div>
+        <div id="Div2"></div>
+        <script type="text/javascript">
+            Plotly.d3.csv('/data/partidos.csv', function(err,rows){
+                function unpack(rows, key) {
+                    return rows.map(function(row) { return row[key]; });
+                }
+
+                var trace1 = {
+                    colorscale: 'Blackbody',
+                    type: "heatmap",
+                    x: unpack(rows, 'cat_state'),
+                    y: unpack(rows, 'cat_party'),
+                    z: unpack(rows, 'total_votes')
+                    //line: {color: '#17BECF'}
+                }
+
+                var data1 = [trace1];
+
+                var layout1 = {
+                    title: 'Mapa de Calor de votos em cada estado'
+                };
+
+                Plotly.newPlot('Div1', data1, layout1);
+                
+                var trace2 = {
+                    colorscale: 'Blackbody',
+                    type: "contour",
+                    x: unpack(rows, 'cat_state'),
+                    y: unpack(rows, 'cat_party'),
+                    z: unpack(rows, 'total_votes')
+                    //line: {color: '#17BECF'}
+                }
+
+                var data2 = [trace2];
+
+                var layout2 = {
+                    title: 'Mapa de votos em cada estado (com contorno)'
+                };
+
+                Plotly.newPlot('Div2', data2, layout2);
+            })
+
+
+            
+        </script>
+    </body>
+</html>
+
