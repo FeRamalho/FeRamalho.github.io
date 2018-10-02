@@ -25,17 +25,24 @@
         <div id="Div1"></div>
         <div id="Div2"></div>
         <script type="text/javascript">
-            Plotly.d3.csv('/data/partidos.csv', function(err,rows){
-                function unpack(rows, key) {
-                    return rows.map(function(row) { return row[key]; });
-                }
+           // Plotly.d3.csv('/data/partidos.csv', function(err,rows){
+             //   function unpack(rows, key) {
+               //     return rows.map(function(row) { return row[key]; });
+                //}
+                var xaxis = ["AC","AC","AC","AC","AC","AC","AC","AC","AC","AC","AC","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AM","AM","AM","AM","AM","AM","AM","AM","AM","AM","AM","AP","AP","AP","AP","AP","AP","AP","AP","AP","AP","AP","BA","BA","BA","BA","BA","BA","BA","BA","BA","BA","BA","CE","CE","CE","CE","CE","CE","CE","CE","CE","CE","CE","DF","DF","DF","DF","DF","DF","DF","DF","DF","DF","DF","ES","ES","ES","ES","ES","ES","ES","ES","ES","ES","ES","GO","GO","GO","GO","GO","GO","GO","GO","GO","GO","GO","MA","MA","MA","MA","MA","MA","MA","MA","MA","MA","MA","MG","MG","MG","MG","MG","MG","MG","MG","MG","MG","MG","MS","MS","MS","MS","MS","MS","MS","MS","MS","MS","MS","MT","MT","MT","MT","MT","MT","MT","MT","MT","MT","MT","PA","PA","PA","PA","PA","PA","PA","PA","PA","PA","PA","PB","PB","PB","PB","PB","PB","PB","PB","PB","PB","PB","PE","PE","PE","PE","PE","PE","PE","PE","PE","PE","PE","PI","PI","PI","PI","PI","PI","PI","PI","PI","PI","PI","PR","PR","PR","PR","PR","PR","PR","PR","PR","PR","PR","RJ","RJ","RJ","RJ","RJ","RJ","RJ","RJ","RJ","RJ","RJ","RN","RN","RN","RN","RN","RN","RN","RN","RN","RN","RN","RO","RO","RO","RO","RO","RO","RO","RO","RO","RO","RO","RR","RR","RR","RR","RR","RR","RR","RR","RR","RR","RR","RS","RS","RS","RS","RS","RS","RS","RS","RS","RS","RS","SC","SC","SC","SC","SC","SC","SC","SC","SC","SC","SC","SE","SE","SE","SE","SE","SE","SE","SE","SE","SE","SE","SP","SP","SP","SP","SP","SP","SP","SP","SP","SP","SP","TO","TO","TO","TO","TO","TO","TO","TO","TO","TO","TO"]
+                var yaxis = ["PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV","PCB","PCO","PRTB","PSB","PSC","PSDB","PSDC","PSOL","PSTU","PT","PV"]
+                
+                var zaxis = ["0","0","0","50825","13772","353139","16464","5797","0","538758","14300","3950","0","315796","95343","30933","470205","902","464146","3767","138853","3402","5531","0","487","406258","22479","359577","30553","31570","9862","699837","71295","455","0","14103","305474","52623","26138","29493","26077","10619","90610","16263","0","0","20980","1273369","521127","694753","11575","209979","27283","5963526","229216"," 5699"," 0"," 16589"," 255485"," 103080"," 2501578"," 140257"," 216425"," 61475"," 5387714"," 120528"," 1371"," 2023"," 115495"," 1658143"," 26104"," 312502"," 7957"," 91252"," 8513"," 925567"," 52803"," 2466"," 0"," 25603"," 1132074"," 14723"," 306416"," 12881"," 67778"," 10779"," 803465"," 640749"," 0"," 0"," 85302"," 650056"," 71681"," 4676440"," 40680"," 29739"," 2385"," 838211"," 8967"," 11921"," 0"," 83265"," 1678896"," 147026"," 164856"," 184777"," 96655"," 78075"," 290943"," 360376"," 77552"," 18285"," 10605"," 1483482"," 382066"," 11470986"," 136670"," 130558"," 65688"," 8394101"," 642724"," 0"," 0"," 1465"," 137433"," 26403"," 1491388"," 4250"," 17617"," 5397"," 1894599"," 22542"," 0"," 0"," 8810"," 373717"," 77331"," 794738"," 14903"," 111317"," 0"," 672368"," 59304"," 0"," 0"," 14712"," 261805"," 247424"," 5144674"," 8170"," 382261"," 22467"," 2412971"," 84804"," 0"," 2474"," 28775"," 2346471"," 185532"," 2409551"," 9207"," 93312"," 4192"," 723011"," 13456"," 12506"," 0"," 31437"," 8040475"," 111509"," 594553"," 25534"," 120688"," 20205"," 2026153"," 55553"," 602"," 2289"," 0"," 1178390"," 47938"," 116966"," 11818"," 26765"," 19061"," 1533733"," 41172"," 3685"," 0"," 25721"," 577353"," 1497524"," 8352905"," 141328"," 113864"," 6549"," 1910595"," 431784"," 13319"," 929"," 195277"," 4955489"," 154346"," 406276"," 266049"," 1824267"," 59841"," 1797985"," 120414"," 0"," 0"," 182"," 832748"," 28390"," 91408"," 13157"," 172827"," 44929"," 991723"," 22285"," 0"," 0"," 569"," 28839"," 40154"," 746802"," 53231"," 91301"," 539"," 248514"," 32253"," 0"," 0"," 13303"," 214663"," 19824"," 96323"," 16323"," 9068"," 2659"," 60083"," 13183"," 0"," 0"," 19304"," 718737"," 43400"," 589938"," 5528"," 194384"," 41502"," 8720063"," 69386"," 4785"," 0"," 308"," 1415436"," 57549"," 1585971"," 4736"," 250838"," 24145"," 1774956"," 24922"," 16669"," 0"," 2950"," 107178"," 559233"," 52665"," 0"," 58993"," 44914"," 648159"," 5270"," 15777"," 14252"," 115713"," 2038176"," 1383870"," 30538579"," 52743"," 888635"," 148007"," 14810361"," 2420490"," 7128"," 0"," 8313"," 98871"," 32863"," 35216"," 1853"," 11242"," 0"," 90173"," 37600"]
 
                 var trace1 = {
                     colorscale: 'Blackbody',
                     type: "heatmap",
-                    x: unpack(rows, 'cat_state'),
-                    y: unpack(rows, 'cat_party'),
-                    z: unpack(rows, 'total_votes')
+                    //x: unpack(rows, 'cat_state'),
+                    x: xaxis,
+                    y: yaxis,
+                    //y: unpack(rows, 'cat_party'),
+                    z: zaxis
+                    //z: unpack(rows, 'total_votes')
                     //line: {color: '#17BECF'}
                 }
 
@@ -50,9 +57,10 @@
                 var trace2 = {
                     colorscale: 'Blackbody',
                     type: "contour",
-                    x: unpack(rows, 'cat_state'),
-                    y: unpack(rows, 'cat_party'),
-                    z: unpack(rows, 'total_votes')
+                    x: xaxis,
+                    y: yaxis,
+                    //y: unpack(rows, 'cat_party'),
+                    z: zaxis
                     //line: {color: '#17BECF'}
                 }
 
@@ -63,7 +71,7 @@
                 };
 
                 Plotly.newPlot('Div2', data2, layout2);
-            })
+           // })
 
 
             
