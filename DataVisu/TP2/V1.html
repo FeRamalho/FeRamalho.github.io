@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="utf-8">
+        <title>Campeonato Brasileiro</title>
+        <script src="d3/d3.js"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+        <style type="text/css">            
+        </style>
+    </head>
+
+    <style >
+        body {text-align: center;}
+    </style>
+
+    <body>
+    	<div id="Div1"></div>
+    	<script type="text/javascript">
+    		//DADOS USADOS
+    		var rodadas = ['1ª','2ª','3ª','4ª','5ª','6ª','7ª','8ª','9ª','10ª','11ª','12ª','13ª','14ª','15ª','16ª','17ª','18ª','19ª','20ª','21ª','22ª','23ª','24ª','25ª','26ª','27ª','28ª','29ª','30ª','31ª','32ª','33ª','34ª','35ª','36ª','37ª','38ª']
+    		//
+    		var adversariosCRU2013 = ["Goiás","Atlético-PR","Botafogo","Corinthians","Internacional","Portuguesa","Náutico","São Paulo","Atlético-MG","Fluminense","Coritiba","Criciúma","Santos","Grêmio","Vitória","Ponte Preta","Vasco","Bahia","Flamengo","Goiás","Atlético-PR","Botafogo","Corinthians","Internacional","Portuguesa","Náutico","São Paulo","Atlético-MG","Fluminense","Coritiba","Criciúma","Santos","Grêmio","Vitória","Ponte Preta","Vasco","Bahia","Flamengo"]
+    		var pontosCRU2013 = [3,4,4,7,8,9,12,15,18,18,21,24,25,25,28,31,34,37,40,43,46,49,50,53,56,59,59,59,62,62,65,68,71,74,75,75,75,76]
+    		var adversariosCRU2014 = ["Bahia","São Paulo","Atlético-PR","Atlético-MG","Coritiba","Sport","Internacional","Corinthians","Flamengo","Vitória","Palmeiras","Figueirense","Botafogo","Criciúma","Santos","Grêmio","Goiás","Chapecoense","Fluminense","Bahia","São Paulo","Atlético-PR","Atlético-MG","Coritiba","Sport","Internacional","Corinthians","Flamengo","Vitória","Palmeiras","Figueirense","Botafogo","Criciúma","Santos","Grêmio","Goiás","Chapecoense","Fluminense"]
+    		var pontosCRU2014 = [3,4,7,7,10,13,16,16,19,22,25,28,29,30,33,36,39,42,43,46,46,49,49,52,53,56,56,56,59,60,61,64,67,70,73,76,77,80]
+    		//
+    		var adversariosCOR11 = ["Grêmio","Coritiba","Flamengo","Fluminense","São Paulo","Bahia","Vasco","Atlético-GO","Internacional","Botafogo","Cruzeiro","Avaí","América-MG","Atlético-PR","Santos","Ceará","Atlético-MG","Figueirense","Palmeiras","Grêmio","Coritiba","Flamengo","Fluminense","Santos","São Paulo","Bahia","Vasco","Atlético-GO","Botafogo","Cruzeiro","Internacional","Avaí","América-MG","Atlético-PR","Ceará","Atlético-MG","Figueirense","Palmeiras"]
+    		var pontosCOR11 = [3,6,7,10,13,16,19,22,25,28,28,28,31,32,33,34,37,37,37,40,40,43,43,43,44,47,48,51,51,54,55,58,58,61,64,67,70,71]
+    		var adversariosCOR15 = ["Cruzeiro","Chapecoense","Fluminense","Palmeiras","Grêmio","Joinville","Internacional","Santos","Figueirense","Ponte Preta","Goiás","Atlético-PR","Flamengo","Atlético-MG","Coritiba","Vasco","São Paulo","Sport","Avaí","Cruzeiro","Chapecoense","Fluminense","Palmeiras","Grêmio","Joinville","Internacional","Santos","Figueirense","Ponte Preta","Goiás","Atlético-PR","Flamengo","Atlético-MG","Coritiba","VASCO","São Paulo","Sport","Avaí"]
+    		var pontosCOR15 = [3,6,7,7,7,10,13,13,16,19,20,23,26,29,30,33,34,37,40,43,46,49,50,51,54,54,57,60,61,64,67,70,73,76,77,80,80,81]
+    		var adversariosCOR17 = ["Chapecoense","Vitória","Atlético-GO","Santos","Vasco","São Paulo","Cruzeiro","Coritiba","Bahia","Grêmio","Botafogo","Ponte Preta","Palmeiras","Atlético-PR","Avaí","Fluminense","Flamengo","Atlético-MG","Sport","Chapecoense","Vitória","Atlético-GO","Santos","Vasco","São Paulo","Cruzeiro","Coritiba","Bahia","Grêmio","Botafogo","Ponte Preta","Palmeiras","Atlético-PR","Avaí","Fluminense","Flamengo","Atlético-MG","Sport"]
+    		var pontosCOR17 = [1,4,7,10,13,16,19,20,23,26,29,32,35,36,37,40,41,44,47,50,50,50,50,53,54,55,58,58,59,59,59,62,65,68,71,71,72,72]
+    		//FIM DADOS
+
+			var trace1 = { //GRAFICO DO CRUZEIRO 2014
+				x: rodadas,
+				y: pontosCRU2014,
+				mode: 'lines+markers',
+				name: 'Cruzeiro 2014',
+				marker: {
+					color: 'rgb(26, 108, 178)',
+					size: 8
+				},
+				line: {
+					color: 'rgb(26, 108, 178)',
+					//width: 1
+				},
+				text: adversariosCRU2014
+			};
+
+			var trace2 = { //GRAFICO DO CRUZEIRO 2013
+				x: rodadas,
+				y: pontosCRU2013,
+				mode: 'lines+markers',
+				name: 'Cruzeiro 2013',
+				marker: {
+					color: 'rgb(38, 54, 112)',
+					size: 8
+				},
+				line: {
+					color: 'rgb(38, 54, 112)',
+					//width: 1
+				},
+				text: adversariosCRU2013
+			};
+
+			var trace3 = { //GRAFICO DO CORINTHIANS 2017
+				x: rodadas,
+				y: pontosCOR17,
+				mode: 'lines+markers',
+				name: 'Corinthians 2017',
+				marker: {
+					color: 'rgb(27, 28, 30)',
+					size: 8
+				},
+				line: {
+					color: 'rgb(27, 28, 30)',
+					//width: 1
+				},
+				text: adversariosCOR17
+			};
+
+			var trace4 = { //GRAFICO DO CORINTHIANS 2015
+				x: rodadas,
+				y: pontosCOR15,
+				mode: 'lines+markers',
+				name: 'Corinthians 2015',
+				marker: {
+					color: 'rgb(122, 122, 122)',
+					size: 8
+				},
+				line: {
+					color: 'rgb(122, 122, 122)',
+					//width: 1
+				},
+				text: adversariosCOR15
+			};
+
+			var trace5 = { //GRAFICO DO CORINTHIANS 2011
+				x: rodadas,
+				y: pontosCOR11,
+				mode: 'lines+markers',
+				name: 'Corinthians 2011',
+				marker: {
+					color: 'rgb(28, 28, 28)',
+					size: 8
+				},
+				line: {
+					color: 'rgb(28, 28, 28)',
+					//width: 1
+				},
+				text: adversariosCOR11
+			};
+
+			var data = [ trace1, trace2, trace3, trace4, trace5 ];
+
+			var layout = {
+				title: 'Clubes que ganharam o Campeonato mais de uma vez entre 2010 e 2017',
+				xaxis: {
+					title: 'Rodadas'
+				},
+			  	yaxis: {
+			    	title: 'Pontos Acumulados'
+			  	}
+			};
+
+			Plotly.newPlot('Div1', data, layout);
+    	</script>
+    </body>
+</html>

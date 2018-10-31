@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="utf-8">
+        <title>Campeonato Brasileiro</title>
+        <script src="d3/d3.js"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+        <style type="text/css">            
+        </style>
+    </head>
+
+    <style >
+        body {text-align: center;}
+        #Div1 {width: 100%; float: left; height: 500px;}
+        #Div2 {width: 100%; float: left; height: 500px; }
+    </style>
+
+    <body>
+    	<div id="Div1"></div>
+    	<div id="Div2"></div>
+    	<script type="text/javascript">
+    		//DADOS USADOS/ primeiro grafico
+    		var anos = [2010,2011,2012,2013,2014,2015,2016,2017]
+    		var golsTotal = [978,1017,939,936,860,897,912,923]
+    		var golsCasa = [581,610,559,558,540,555,564,526]
+    		var golsFora = [397,407,380,378,320,342,348,397]
+    		//FIM DADOS/ primeiro grafico
+    		var button_layer_2_height = 1.2
+
+    		var data = [{
+    			x: anos,
+				y: golsCasa,
+				type: 'bar',
+				name: 'Gols feitos em casa',
+				//text: golsCasa,
+				marker: {
+			    	color: 'rgb(49,130,189)',
+			    	//opacity: 1,
+				}
+			},
+			{
+			  	x: anos,
+				y: golsFora,
+				type: 'bar',
+				name: 'Gols feitos fora',
+				//text: golsFora,
+				marker: {
+			    	color: 'rgb(38, 54, 112)',
+			    	//opacity: 0.7,
+				}
+			},
+			{
+			  	x: anos,
+				y: golsTotal,
+				type: 'bar',
+				name: 'Total de gols',
+				//text: golsFora,
+				marker: {
+			    	color: 'rgb(204, 204, 204)',
+			    	//opacity: 0.7,
+			  	},
+			  	visible: false
+    		}]
+
+    		var updatemenus = [{
+    			buttons: [{
+    				args: [{'visible': [true,true,false]},
+    					   {'title': 'Gols do Campeonato entre 2010 e 2017'}],
+    				label: 'Em casa e fora',
+    				method: 'update'
+    			},
+    			{
+    				args: [{'visible': [false,false,true]},
+    					   {'title': 'Gols do Campeonato entre 2010 e 2017: Total de gols'}],
+    				label: 'Total',
+    				method: 'update'
+    			},
+    			{
+    				args: [{'visible': [true,true,true]},
+    					   {'title': 'Gols do Campeonato entre 2010 e 2017'}],
+    				label: 'Casa/fora/total',
+    				method: 'update'
+    			}],
+		    	direction: 'left',
+		    	pad: {'r': 10, 't': 10},
+		    	showactive: true,
+		    	type: 'buttons',
+		    	x: 0.1,
+		    	xanchor: 'left',
+		    	y: button_layer_2_height,
+		    	yanchor: 'top'
+    		}]
+
+			var layout = {
+				title: 'Gols do Campeonato entre 2010 e 2017',
+				updatemenus: updatemenus,
+				xaxis: {
+					title: 'Anos'
+				},
+			  	yaxis: {
+			    	title: 'Número de Gols'
+			  	},
+			  	showlegend: true
+			  	//barmode: 'relative'
+			};
+
+			Plotly.newPlot('Div1', data, layout);
+
+			//segundo grafico
+			//DADOS USADOS/ segundo grafico
+    		var estados10 = ['CE', 'ES', 'PR', 'SC', 'GO', 'MG', 'RS', 'RJ', 'SP']
+    		var gols10 = [35, 42, 43, 49, 105, 116, 200, 296]
+    		var estados11 = ['CE', 'BH', 'GO', 'SC', 'PR', 'RS', 'MG', 'SP', 'RJ']
+    		var gols11 = [43, 47, 50, 91, 95, 106, 149, 208, 228]
+    		var estados12 = ['GO', 'BH', 'SC', 'PR', 'PE', 'RS', 'MG', 'RJ', 'SP']
+    		var gols12 = [37, 37, 39, 53, 83, 100, 111, 204, 275]
+    		var estados13 = ['PE', 'BH', 'GO', 'SC', 'ES', 'RS', 'PR', 'MG', 'RJ', 'SP']
+    		var gols13 = [22, 37, 48, 49, 59, 93, 107, 126, 191, 204]
+    		var estados14 = ['BH', 'PE', 'ES', 'GO', 'PR', 'RS', 'SC', 'MG', 'RJ', 'SP']
+    		var gols14 = [31, 36, 37, 38, 85, 89, 104, 118, 138, 184]
+    		var estados15 = ['GO', 'PE', 'PR', 'RS', 'MG', 'RJ', 'SC', 'SP']
+    		var gols15 = [39, 53, 74, 91, 109, 113, 134, 284]
+    		var estados16 = ['ES', 'RS', 'SC', 'PR', 'PE', 'MG', 'RJ', 'SP']
+    		var gols16 = [51, 76, 79, 79, 94, 132, 140, 261]
+    		var estados17 = ['GO', 'PE', 'ES', 'BH', 'RS', 'SC', 'PR', 'MG', 'RJ', 'SP']
+    		var gols17 = [38, 46, 50, 50, 55, 76, 87, 99, 184, 238]
+    		//FIM DADOS/ segundo grafico
+
+    		var data = [{
+    			x: gols10,
+				y: estados10,
+				type: 'bar',
+				orientation: 'h'
+			},
+			{
+			  	x: gols11,
+				y: estados11,
+				type: 'bar',
+				orientation: 'h',
+				visible: false
+			},
+			{
+			  	x: gols12,
+				y: estados12,
+				type: 'bar',
+				orientation: 'h',
+			  	visible: false
+    		},
+    		{
+			  	x: gols13,
+				y: estados13,
+				type: 'bar',
+				orientation: 'h',
+			  	visible: false
+    		},
+    		{
+			  	x: gols14,
+				y: estados14,
+				type: 'bar',
+				orientation: 'h',
+			  	visible: false
+    		},
+    		{
+			  	x: gols15,
+				y: estados15,
+				type: 'bar',
+				orientation: 'h',
+			  	visible: false
+    		},
+    		{
+			  	x: gols16,
+				y: estados16,
+				type: 'bar',
+				orientation: 'h',
+			  	visible: false
+    		},
+    		{
+			  	x: gols17,
+				y: estados17,
+				type: 'bar',
+				orientation: 'h',
+			  	visible: false
+    		}]
+    		var updatemenus = [{
+    			buttons: [{
+    				args: [{'visible': [true,false,false,false,false,false,false,false]},
+    					   {'title': 'Quantidadede Gols do Campeonato por Estado: 2010'}],
+    				label: '2010',
+    				method: 'update'
+    			},
+    			{
+    				args: [{'visible': [false,true,false,false,false,false,false,false]},
+    					   {'title': 'Quantidadede Gols do Campeonato por Estado: 2011'}],
+    				label: '2011',
+    				method: 'update'
+    			},
+    			{
+    				args: [{'visible': [false,false,true,false,false,false,false,false]},
+    					   {'title': 'Quantidadede Gols do Campeonato por Estado: 2012'}],
+    				label: '2012',
+    				method: 'update'
+    			},
+    			{
+    				args: [{'visible': [false,false,false,true,false,false,false,false]},
+    					   {'title': 'Quantidadede Gols do Campeonato por Estado: 2013'}],
+    				label: '2013',
+    				method: 'update'
+    			},
+    			{
+    				args: [{'visible': [false,false,false,false,true,false,false,false]},
+    					   {'title': 'Quantidadede Gols do Campeonato por Estado: 2014'}],
+    				label: '2014',
+    				method: 'update'
+    			},
+    			{
+    				args: [{'visible': [false,false,false,false,false,true,false,false]},
+    					   {'title': 'Quantidadede Gols do Campeonato por Estado: 2015'}],
+    				label: '2015',
+    				method: 'update'
+    			},
+    			{
+    				args: [{'visible': [false,false,false,false,false,false,true,false]},
+    					   {'title': 'Quantidadede Gols do Campeonato por Estado: 2016'}],
+    				label: '2016',
+    				method: 'update'
+    			},
+    			{
+    				args: [{'visible': [false,false,false,false,false,false,false,true]},
+    					   {'title': 'Quantidadede Gols do Campeonato por Estado: 2017'}],
+    				label: '2017',
+    				method: 'update'
+    			}],
+		    	direction: 'left',
+		    	pad: {'r': 10, 't': 20},
+		    	showactive: true,
+		    	type: 'buttons',
+		    	x: 0.1,
+		    	xanchor: 'left',
+		    	y: button_layer_2_height,
+		    	yanchor: 'top'
+    		}]
+
+			var layout = {
+				title: 'Quantidadede Gols do Campeonato por Estado',
+				updatemenus: updatemenus,
+				xaxis: {
+					title: 'Quantidade de gols'
+				},
+			  	yaxis: {
+			    	title: 'Estados'
+			  	}
+			  	//showlegend: true
+			  	//barmode: 'relative'
+			};
+
+			Plotly.newPlot('Div2', data, layout);
+    	</script>
+    </body>
+</html>

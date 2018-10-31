@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="utf-8">
+        <title>Campeonato Brasileiro</title>
+        <script src="d3/d3.js"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+        <style type="text/css">            
+        </style>
+    </head>
+
+    <style >
+        body {text-align: center;}
+    </style>
+
+    <body>
+    	<div id="Div1"></div>
+    	<script type="text/javascript">
+    		//DADOS USADOS
+    		var rodadas = ['1ª','2ª','3ª','4ª','5ª','6ª','7ª','8ª','9ª','10ª','11ª','12ª','13ª','14ª','15ª','16ª','17ª','18ª','19ª','20ª','21ª','22ª','23ª','24ª','25ª','26ª','27ª','28ª','29ª','30ª','31ª','32ª','33ª','34ª','35ª','36ª','37ª','38ª']
+    		//
+    		var adversariosAME11 = ["Bahia","Vasco","Internacional","Avaí","Cruzeiro","Flamengo","Santos","Palmeiras","Atlético-MG","Ceará","Figueirense","Grêmio","Coritiba","Corinthians","Fluminense","Botafogo","São Paulo","Atlético-PR","Atlético-GO","Bahia","Vasco","Internacional","Avaí","Cruzeiro","Santos","Flamengo","Palmeiras","Atlético-MG","Ceará","Figueirense","Grêmio","Coritiba","Corinthians","Fluminense","Botafogo","São Paulo","Atlético-PR","Atlético-GO"]
+    		var pontosAME11 = [3,3,3,4,5,5,5,6,6,6,7,8,8,8,11,11,12,13,13,14,17,17,18,19,19,19,20,21,24,24,25,25,28,31,34,34,37,37]
+    		var adversariosAME16 = ["Fluminense","Chapecoense","Vitória","Cruzeiro","Ponte Preta","Figueirense","Internacional","Botafogo","Coritiba","Palmeiras","Atlético-MG","Corinthians","Atlético-PR","São Paulo","Santa Cruz","Flamengo","Grêmio","Sport","Santos","Fluminense","Chapecoense","Vitória","Cruzeiro","Ponte Preta","Figueirense","Internacional","Botafogo","Coritiba","Palmeiras","Atlético-MG","Corinthians","Atlético-PR","São Paulo","Santa Cruz","Flamengo","Grêmio","Sport","Santos"]
+    		var pontosAME16 = [0,0,1,2,2,5,5,5,8,8,8,8,8,8,8,8,9,10,13,13,13,13,13,14,15,18,21,21,21,21,21,24,27,27,27,27,28,28]
+    		//
+    		var adversariosVAS13 = ["Portuguesa","São Paulo","Vitória","Atlético-MG","Bahia","Internacional","Flamengo","Fluminense","Criciúma","Goiás","Botafogo","Ponte Preta","Coritiba","Santos","Grêmio","Corinthians","Cruzeiro","Náutico","Atlético-PR","Portuguesa","São Paulo","Vitória","Atlético-MG","Bahia","Internacional","Flamengo","Fluminense","Criciúma","Goiás","Botafogo","Ponte Preta","Coritiba","Santos","Grêmio","Corinthians","Cruzeiro","Náutico","Atlético-PR"]
+    		var pontosVAS13 = [3,3,3,6,7,7,7,10,13,14,14,15,18,19,19,20,20,23,24,24,24,24,24,25,28,29,32,32,32,33,33,36,37,37,38,41,44,44]
+    		var adversariosVAS15 = ["Goiás","Figueirense","Internacional","Atlético-MG","Ponte Preta","Atlético-PR","Cruzeiro","Sport","Flamengo","Avaí","Chapecoense","São Paulo","Grêmio","Fluminense","Palmeiras","Corinthians","Joinville","Santos","Coritiba","Goiás","Figueirense","Internacional","Atlético-MG","Ponte Preta","Atlético-PR","Cruzeiro","Sport","Flamengo","Avaí","Chapecoense","São Paulo","Grêmio","Fluminense","Palmeiras","Corinthians","Joinville","Santos","Coritiba"]
+    		var pontosVAS15 = [1,2,3,3,3,3,3,3,6,9,9,9,9,12,12,12,13,13,13,13,13,13,13,16,19,20,23,26,27,28,29,30,30,33,34,37,40,41]
+    		//FIM DADOS
+
+			var trace1 = { //GRAFICO DO AMERICA 2016
+				//posicao 20
+				x: rodadas,
+				y: pontosAME16,
+				mode: 'lines+markers',
+				name: 'América 2016',
+				marker: {
+					color: 'rgb(6, 137, 17)',
+					size: 8
+				},
+				line: {
+					color: 'rgb(6, 137, 17)',
+					//width: 1
+				},
+				xanchor: 'right',
+    			yanchor: 'middle',
+				text: adversariosAME16
+			};
+
+			var trace2 = { //GRAFICO DO AMERICA 2011
+				//posicao 19
+				x: rodadas,
+				y: pontosAME11,
+				mode: 'lines+markers',
+				name: 'América 2011',
+				marker: {
+					color: 'rgb(43, 216, 57)',
+					size: 8
+				},
+				line: {
+					color: 'rgb(43, 216, 57)',
+					//width: 1
+				},
+				text: adversariosAME11
+			};
+
+			var trace3 = { //GRAFICO DO VASCO 2015
+				//posicao 18
+				x: rodadas,
+				y: pontosVAS15,
+				mode: 'lines+markers',
+				name: 'Vasco 2015',
+				marker: {
+					color: 'rgb(27, 28, 30)',
+					size: 8
+				},
+				line: {
+					color: 'rgb(27, 28, 30)',
+					//width: 1
+				},
+				text: adversariosVAS15
+			};
+
+			var trace4 = { //GRAFICO DO VASCO 2013
+				//posicao 18
+				x: rodadas,
+				y: pontosVAS13,
+				mode: 'lines+markers',
+				name: 'Vasco 2013',
+				marker: {
+					color: 'rgb(122, 122, 122)',
+					size: 8
+				},
+				line: {
+					color: 'rgb(122, 122, 122)',
+					//width: 1
+				},
+				text: adversariosVAS13
+			};
+
+			var data = [ trace1, trace2, trace3, trace4 ];
+
+			var layout = {
+				title: 'Clubes que foram rebaixados mais de uma vez entre 2010 e 2017',
+				xaxis: {
+					title: 'Rodadas'
+				},
+			  	yaxis: {
+			    	title: 'Pontos Acumulados'
+			  	},
+			  	annotations: [{ //anotacoes das posicoes
+			  		x: 38.5,
+			  		y: 28,
+			  		xref: 'x',
+			  		yref: 'y',
+			  		text: '20ª posição',
+			  		showarrow: false,
+			  		ax: 0,
+			  		ay: -40
+			  	},
+			  	{
+			  		x: 38.5,
+			  		y: 37,
+			  		xref: 'x',
+			  		yref: 'y',
+			  		text: '19ª posição',
+			  		showarrow: false,
+			  		ax: 0,
+			  		ay: -40
+			  	},
+			  	{
+			  		x: 38.5,
+			  		y: 41,
+			  		xref: 'x',
+			  		yref: 'y',
+			  		text: '18ª posição',
+			  		showarrow: false,
+			  		ax: 0,
+			  		ay: -40
+			  	},
+			  	{
+			  		x: 38.5,
+			  		y: 44,
+			  		xref: 'x',
+			  		yref: 'y',
+			  		text: '18ª posição',
+			  		showarrow: false,
+			  		ax: 0,
+			  		ay: -40
+			  	}]
+			};
+
+			Plotly.newPlot('Div1', data, layout);
+    	</script>
+    </body>
+</html>
