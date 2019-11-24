@@ -1,0 +1,106 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Municipios</title>
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="https://js.arcgis.com/4.13/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.13/"></script>
+  
+  <script>  
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/layers/GraphicsLayer",
+      "esri/widgets/Slider",
+      "esri/Graphic"
+    ], function(Map, MapView, FeatureLayer, GraphicsLayer,Slider,Graphic) {
+
+      var map = new Map({
+          //basemap: "dark-gray"
+      });
+
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        //center: [-118.80500,34.02700],
+        //zoom: -13
+      });
+      
+      var featureLayer = new FeatureLayer({
+        url: "https://services7.arcgis.com/1cZoQRHeAYtnln4n/arcgis/rest/services/1991mun/FeatureServer"
+      });
+
+      map.add(featureLayer);
+      
+      // Layer used to draw graphics returned
+      var graphicsLayer = new GraphicsLayer();
+      map.add(graphicsLayer);
+
+      // var slider = new Slider({
+      //   container: "slider",
+      //   min: 1872,
+      //   max: 1991,
+      //   values: [1911],
+      //   step: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991],
+      //   rangeLabelsVisible: true
+      // });
+
+      // // When user drags the slider:
+      // //  - stops the animation
+      // //  - set the visualized year to the slider one.
+      // function inputHandler(event) {
+      //   stopAnimation();
+      //   setYear(event.value);
+      // }
+      // slider.on("thumb-drag", inputHandler);
+
+      // Toggle animation on/off when user
+      // clicks on the play button
+      playButton.addEventListener("click", function() {
+        if (playButton.classList.contains("toggled")) {
+          stopAnimation();
+        } else {
+          startAnimation();
+        }
+      });
+      
+      var sqlExpressions = ["begin_date = 1872", "begin_date = 1991", "expiration = 1872", "expiration = 1940"];
+
+      var selectFilter = document.createElement("select");
+      selectFilter.setAttribute("class", "esri-widget esri-select");
+      selectFilter.setAttribute("style", "width: 275px; font-family: Avenir Next W00; font-size: 1em;");
+
+      sqlExpressions.forEach(function(sql){
+        var option = document.createElement("option");
+        option.value = sql;
+        option.innerHTML = sql;
+        selectFilter.appendChild(option);
+      });
+
+      view.ui.add(selectFilter, "top-right");
+      
+      function setFeatureLayerFilter(expression) {
+        featureLayer.definitionExpression = expression;
+      }
+      
+      selectFilter.addEventListener('change', function (event) {
+        setFeatureLayerFilter(event.target.value);
+      });
+
+    });
+  </script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
