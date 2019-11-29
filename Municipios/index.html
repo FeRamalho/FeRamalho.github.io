@@ -136,6 +136,8 @@
           url: "https://services7.arcgis.com/1cZoQRHeAYtnln4n/arcgis/rest/services/1991mun/FeatureServer",
           definitionExpression: "begin_date <= 1970 and expiration >= 1970",
       });
+
+      var resultsLayer = new GraphicsLayer();
       
       var map = new Map({
           //basemap: "dark-gray"
@@ -149,7 +151,7 @@
           //zoom: -13
       });
 
-      //map.add(featureLayer);
+      map.add(featureLayer);
       
       // Layer used to draw graphics returned
       // var graphicsLayer = new GraphicsLayer();
@@ -168,20 +170,22 @@
         values: [1970],
         step: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991],
         label: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991],
-    labelsVisible: true,
-        rangeLabelsVisible: true
+        labelsVisible: true,
+        rangeLabelsVisible: true,
+        steps: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991],
+        precision: 1,
+        tickConfigs: [{
+          mode: "position",
+          values: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991],
+          labelsVisible: true
+        }],
       });
     
     slider.labelFormatFunction = function(value, type) {
         return (type === "value") ? value.toFixed(0) : value;
     }
     
-    // Places a single tick at the location of the value of 5.
-    slider.tickConfigs = [{
-        mode: "position",
-        values: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991],
-    labelsVisible: true
-    }]
+//map.addMany([resultsLayer, featureLayer]);
 
       // When user drags the slider:
       //  - stops the animation
@@ -225,7 +229,7 @@
       );
 
       // When the layerview is available, setup hovering interactivity
-      view.whenLayerView(featureLayer).then(setupHoverTooltip);
+      //view.whenLayerView(featureLayer).then(setupHoverTooltip);
 
       // Starts the application by visualizing year 1984
       setYear(1970);
@@ -238,6 +242,27 @@
           sliderValue.innerHTML = Math.floor(value);
           slider.viewModel.setValue(0, value);
           //featureLayer.renderer = createRenderer(value);
+          queryMun(value).then(displayResults)
+          //selectFilter.addEventListener('change', function (event) {
+        //setFeatureLayerFilter(value);
+      //});
+      }
+      function setFeatureLayerFilter(expression) {
+        featureLayer.definitionExpression = expression;
+      }
+
+      function displayResults(results) {
+        resultsLayer.removeAll();
+        var features = results.features;
+        resultsLayer.addMany(features);
+      }
+
+      function queryMun(value) {
+        var query = featureLayer.createQuery();
+        
+        featureLayer.definitionExpression = `begin_date <= ${value} and expiration >= ${value}`
+
+        return featureLayer.queryFeatures(query);
       }
 
 
@@ -381,15 +406,17 @@
           function animate(startValue) {
               var animating = true;
               var value = startValue;
+              var array = [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991];
 
               var frame = function (timestamp) {
                   if (!animating) {
                       return;
                   }
 
-                  value += 0.5;
-                  if (value > 2017) {
-                      value = 1880;
+
+                  value += 10;
+                  if (value > 1992) {
+                      value = 1872;
                   }
 
                   setYear(value);
@@ -397,7 +424,7 @@
                   // Update at 30fps
                   setTimeout(function () {
                       requestAnimationFrame(frame);
-                  }, 1000 / 30);
+                  }, 5500);
               };
 
               frame();
