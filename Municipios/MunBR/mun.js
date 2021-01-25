@@ -284,15 +284,17 @@ require([
             var animating = true;
             var value = startValue;
             var array = [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991];
+            var indexValue;
 
             var frame = function (timestamp) {
                 if (!animating) {
                     return;
                 }
 
+                indexValue = array.indexOf(value);
+                value = array[++indexValue];
 
-                value += 10;
-                if (value > 1992) {
+                if (value === undefined) {
                     value = 1872;
                 }
 
