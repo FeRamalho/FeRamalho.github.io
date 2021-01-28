@@ -29,10 +29,7 @@ require([
       };
 
     var featureLayer = new FeatureLayer({
-        portalItem: {
-            id: "6dca5b9b8fc8491d852dcd6fb260359d"
-        },
-        //url: "https://services7.arcgis.com/1cZoQRHeAYtnln4n/arcgis/rest/services/1991mun/FeatureServer",
+        url: "https://services7.arcgis.com/1cZoQRHeAYtnln4n/arcgis/rest/services/1991mun/FeatureServer",
         definitionExpression: "begin_date <= 1970 and expiration >= 1970",
         popupTemplate: template,
         outFields: "*"
