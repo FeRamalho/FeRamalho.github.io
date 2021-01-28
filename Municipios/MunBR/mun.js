@@ -9,9 +9,33 @@ require([
     "esri/widgets/Fullscreen"
   ], function (Map, MapView, Home, FeatureLayer, GraphicsLayer, Slider, Graphic, Fullscreen) {
     
+    var template = {
+        title: "Informações",
+        content: [
+          {
+            type: "fields",
+            fieldInfos: [
+              {
+                fieldName: "nome",
+                label: "Nome"
+              },
+              {
+                fieldName: "expiration",
+                label: "Existe até"
+              }
+            ]
+          }
+        ]
+      };
+
     var featureLayer = new FeatureLayer({
-        url: "https://services7.arcgis.com/1cZoQRHeAYtnln4n/arcgis/rest/services/1991mun/FeatureServer",
+        portalItem: {
+            id: "6dca5b9b8fc8491d852dcd6fb260359d"
+        },
+        //url: "https://services7.arcgis.com/1cZoQRHeAYtnln4n/arcgis/rest/services/1991mun/FeatureServer",
         definitionExpression: "begin_date <= 1970 and expiration >= 1970",
+        popupTemplate: template,
+        outFields: "*"
     });
 
     var resultsLayer = new GraphicsLayer();
@@ -47,8 +71,10 @@ require([
       values: [1970],
       step: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991],
       label: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991],
-      labelsVisible: true,
-      rangeLabelsVisible: true,
+      visibleElements: {
+          labels: true,
+          rangeLabels: true,
+      },
       steps: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991],
       precision: 1,
       tickConfigs: [{
@@ -58,9 +84,11 @@ require([
       }],
     });
   
-  slider.labelFormatFunction = function(value, type) {
-      return (type === "value") ? value.toFixed(0) : value;
-  }
+    slider.labelFormatFunction = function(value, type) {
+        return (type === "value") ? value.toFixed(0) : value;
+    }
+
+    
   
 //map.addMany([resultsLayer, featureLayer]);
 
@@ -86,10 +114,10 @@ require([
     view.ui.empty("top-left");
     view.ui.add(titleDiv, "top-left");
     view.ui.add(
-      new Home({
-          view: view
-      }),
-      "top-left"
+        new Home({
+            view: view
+        }),
+        "top-left"
     );
     //view.ui.add(
     //  new Legend({
@@ -98,19 +126,18 @@ require([
     //  "bottom-left"
     //);
     view.ui.add(
-      new Fullscreen({
-          view: view,
-          element: applicationDiv
-      }),
-      "top-right"
+        new Fullscreen({
+            view: view,
+            element: applicationDiv
+        }),
+        "top-right"
     );
 
     // When the layerview is available, setup hovering interactivity
     //view.whenLayerView(featureLayer).then(setupHoverTooltip);
 
-    // Starts the application by visualizing year 1984
+    // Starts the application by visualizing year 1970
     setYear(1970);
-    
 
      /**
      * Sets the current visualized construction year.
@@ -125,21 +152,22 @@ require([
     //});
     }
     function setFeatureLayerFilter(expression) {
-      featureLayer.definitionExpression = expression;
+        featureLayer.definitionExpression = expression;
     }
 
     function displayResults(results) {
-      resultsLayer.removeAll();
-      var features = results.features;
-      resultsLayer.addMany(features);
+        resultsLayer.removeAll();
+        var features = results.features;
+        resultsLayer.addMany(features);
     }
 
     function queryMun(value) {
-      var query = featureLayer.createQuery();
+        var query = featureLayer.createQuery();
       
-      featureLayer.definitionExpression = `begin_date <= ${value} and expiration >= ${value}`
+        featureLayer.definitionExpression = `begin_date <= ${value} and expiration >= ${value}`;
+        query.outFields = ["*"];
 
-      return featureLayer.queryFeatures(query);
+        return featureLayer.queryFeatures(query);
     }
 
 
@@ -254,130 +282,128 @@ require([
     }
 
 
-        /**
-       * Starts the animation that cycle
-       * through the construction years.
-       */
-        function startAnimation() {
-            stopAnimation();
-            animation = animate(slider.values[0]);
-            playButton.classList.add("toggled");
+    /**
+    * Starts the animation that cycle
+    * through the construction years.
+    */
+    function startAnimation() {
+        stopAnimation();
+        animation = animate(slider.values[0]);
+        playButton.classList.add("toggled");
+    }
+
+    /**
+    * Stops the animations
+    */
+    function stopAnimation() {
+        if (!animation) {
+            return;
         }
 
-        /**
-         * Stops the animations
-         */
-        function stopAnimation() {
-            if (!animation) {
+        animation.remove();
+        animation = null;
+        playButton.classList.remove("toggled");
+    }
+
+    /**
+    * Animates the color visual variable continously
+    */
+    function animate(startValue) {
+        var animating = true;
+        var value = startValue;
+        var array = [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991];
+        var indexValue;
+
+        var frame = function (timestamp) {
+            if (!animating) {
                 return;
             }
 
-            animation.remove();
-            animation = null;
-            playButton.classList.remove("toggled");
-        }
+            indexValue = array.indexOf(value);
+            value = array[++indexValue];
 
-        /**
-         * Animates the color visual variable continously
-         */
-        function animate(startValue) {
-            var animating = true;
-            var value = startValue;
-            var array = [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991];
-            var indexValue;
-
-            var frame = function (timestamp) {
-                if (!animating) {
-                    return;
-                }
-
-                indexValue = array.indexOf(value);
-                value = array[++indexValue];
-
-                if (value === undefined) {
-                    value = 1872;
-                }
-
-                setYear(value);
-
-                // Update at 30fps
-                setTimeout(function () {
-                    requestAnimationFrame(frame);
-                }, 5500);
-            };
-
-            frame();
-
-            return {
-                remove: function () {
-                    animating = false;
-                }
-            };
-        }
-
-        /**
-       * Creates a tooltip to display a the construction year of a building.
-       */
-        function createTooltip() {
-            var tooltip = document.createElement("div");
-            var style = tooltip.style;
-
-            tooltip.setAttribute("role", "tooltip");
-            tooltip.classList.add("tooltip");
-
-            var textElement = document.createElement("div");
-            textElement.classList.add("esri-widget");
-            tooltip.appendChild(textElement);
-
-            view.container.appendChild(tooltip);
-
-            var x = 0;
-            var y = 0;
-            var targetX = 0;
-            var targetY = 0;
-            var visible = false;
-
-            // move the tooltip progressively
-            function move() {
-                x += (targetX - x) * 0.1;
-                y += (targetY - y) * 0.1;
-
-                if (Math.abs(targetX - x) < 1 && Math.abs(targetY - y) < 1) {
-                    x = targetX;
-                    y = targetY;
-                } else {
-                    requestAnimationFrame(move);
-                }
-
-                style.transform =
-                  "translate3d(" + Math.round(x) + "px," + Math.round(y) + "px, 0)";
+            if (value === undefined) {
+                value = 1872;
             }
 
-            return {
-                show: function (point, text) {
-                    if (!visible) {
-                        x = point.x;
-                        y = point.y;
-                    }
+            setYear(value);
 
-                    targetX = point.x;
-                    targetY = point.y;
-                    style.opacity = 1;
-                    visible = true;
-                    textElement.innerHTML = text;
+            // Update at 30fps
+            setTimeout(function () {
+                requestAnimationFrame(frame);
+            }, 5500);
+        };
 
-                    move();
-                },
+        frame();
 
-                hide: function () {
-                    style.opacity = 0;
-                    visible = false;
-                }
-            };
+        return {
+            remove: function () {
+                animating = false;
+            }
+        };
+    }
+
+    /**
+    * Creates a tooltip to display a the construction year of a building.
+    */
+    function createTooltip() {
+        var tooltip = document.createElement("div");
+        var style = tooltip.style;
+
+        tooltip.setAttribute("role", "tooltip");
+        tooltip.classList.add("tooltip");
+
+        var textElement = document.createElement("div");
+        textElement.classList.add("esri-widget");
+        tooltip.appendChild(textElement);
+
+        view.container.appendChild(tooltip);
+
+        var x = 0;
+        var y = 0;
+        var targetX = 0;
+        var targetY = 0;
+        var visible = false;
+
+        // move the tooltip progressively
+        function move() {
+            x += (targetX - x) * 0.1;
+            y += (targetY - y) * 0.1;
+
+            if (Math.abs(targetX - x) < 1 && Math.abs(targetY - y) < 1) {
+                x = targetX;
+                y = targetY;
+            } else {
+                requestAnimationFrame(move);
+            }
+
+            style.transform =
+                "translate3d(" + Math.round(x) + "px," + Math.round(y) + "px, 0)";
         }
 
+        return {
+            show: function (point, text) {
+                if (!visible) {
+                    x = point.x;
+                    y = point.y;
+                }
 
-    
+                targetX = point.x;
+                targetY = point.y;
+                style.opacity = 1;
+                visible = true;
+                textElement.innerHTML = text;
+
+                move();
+            },
+
+            hide: function () {
+                style.opacity = 0;
+                visible = false;
+            }
+        };
+    }
+
 
     //var sqlExpressions = ["begin_date = 1872", "begin_date = 1991", "expiration = 1872", "expiration = 1940"];
 
@@ -402,4 +428,4 @@ require([
     //  setFeatureLayerFilter(event.target.value);
     //});
 
-  });
+});
