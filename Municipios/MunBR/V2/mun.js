@@ -51,7 +51,7 @@ require([
 
     map.add(featureLayer);
     
-    // Layer used to draw graphics returned
+    // Layer used to draw graphics returned //
     // var graphicsLayer = new GraphicsLayer();
       //map.add(graphicsLayer);
 
