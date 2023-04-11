@@ -76,7 +76,7 @@ require([
       precision: 1,
       tickConfigs: [{
         mode: "position",
-        values: [1872, 1900, 1911, 1920, 1933, 1940, 1950, 1960, 1970, 1980, 1991, 2000, 2001, 2005, 2007, 2010, 2013, 2014, 2015],
+        values: [1872, 1933, 2015],
         labelsVisible: true
       }],
     });
