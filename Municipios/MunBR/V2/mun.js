@@ -1,4 +1,5 @@
 require([
+    "esri/config",
     "esri/Map",
     "esri/views/MapView",
     "esri/widgets/Home",
