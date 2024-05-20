@@ -7,7 +7,8 @@ require([
     "esri/widgets/Slider",
     "esri/Graphic",
     "esri/widgets/Fullscreen"
-  ], function (Map, MapView, Home, FeatureLayer, GraphicsLayer, Slider, Graphic, Fullscreen) {
+  ], function (esriConfig, Map, MapView, Home, FeatureLayer, GraphicsLayer, Slider, Graphic, Fullscreen) {
+    esriConfig.apiKey = "AAPK017935c2af034c248a1200027c880dd9ylCV5rr-xstxs9tyJbJJlppo4tGqfQZe_Ne3PXtOWD_HsPLdB6cFahU4aRI8exjV";
     
     var template = {
         title: "Informações",
