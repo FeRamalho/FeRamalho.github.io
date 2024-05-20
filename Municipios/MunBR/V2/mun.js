@@ -30,7 +30,7 @@ require([
       };
 
     var featureLayer = new FeatureLayer({
-        url: "https://services7.arcgis.com/1cZoQRHeAYtnln4n/arcgis/rest/services/until2015shape/FeatureServer",
+        url: "https://services7.arcgis.com/1cZoQRHeAYtnln4n/arcgis/rest/services/until2015shape/FeatureServer/0",
         definitionExpression: "begin_date <= 2000 and expiration >= 2000",
         popupTemplate: template,
         outFields: "*"
